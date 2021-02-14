@@ -11,7 +11,7 @@ class AppTheme extends ChangeNotifier {
     });
   }
 
-  ThemeData get def => ThemeData(
+  ThemeData def(ThemeData from) => from.copyWith(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         appBarTheme: AppBarTheme(
           centerTitle: true,
@@ -28,8 +28,17 @@ class AppTheme extends ChangeNotifier {
         ),
       );
 
-  ThemeData get lightTheme => def.copyWith();
-  ThemeData get darkTheme => def.copyWith();
+  ThemeData get lightTheme => def(ThemeData.light()).copyWith();
+  ThemeData get darkTheme => def(ThemeData.dark()).copyWith(
+        accentColor: Colors.white,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: Colors.redAccent,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      );
 }
 
 String nameThemeMode(ThemeMode mode) {

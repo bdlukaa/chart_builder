@@ -1,5 +1,10 @@
 Date format: DD/MM/YYYY
 
+## 1.0.1 - [13/02/2021]
+
+- Settings Screen
+- Dark mode
+
 ## 1.0.0+1 - [13/02/2021]
 
 - Update `fl_chart` to [bdlukaa/fl_chart](https://github.com/bdlukaa/fl_chart):
@@ -7,6 +12,7 @@ Date format: DD/MM/YYYY
 - Removed Zoomed Scaffold
 - `GridView`s now are now adapted to the avaiable size and the amount of content
 - If tapped in a PieChart section in preview, the edit page of that section will show up
+- LICENSE file
 
 ## 1.0.0 - Initial Release - [13/02/2021]
 

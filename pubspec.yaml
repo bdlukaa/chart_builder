@@ -3,7 +3,7 @@ description: A flutter app to help you build beautiful charts easily
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -11,12 +11,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  animations: ^1.1.2
   fl_chart:
     git:
       url: https://github.com/bdlukaa/fl_chart
       ref: dev
+  animations: ^1.1.2
   flutter_colorpicker: ^0.3.5
+  font_awesome_flutter: ^8.11.0
   get_localization: ^2.0.0
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1

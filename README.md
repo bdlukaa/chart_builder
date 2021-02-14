@@ -2,7 +2,7 @@
   <h1 align="center">Chart Builder</h1>
   <p align="center" >
     <a title="Github License">
-      <img src="https://img.shields.io/github/license/bdlukaa/chart-builder" />
+      <img src="https://img.shields.io/github/license/bdlukaa/chart_builder" />
     </a>
     <a title="PRs are welcome">
       <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" />

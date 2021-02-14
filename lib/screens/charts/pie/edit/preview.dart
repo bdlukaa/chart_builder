@@ -38,7 +38,7 @@ class PreviewState extends State<Preview> {
   Widget build(BuildContext context) {
     return SizedBox.expand(
       child: Padding(
-        padding: EdgeInsets.only(bottom: 70),
+        padding: EdgeInsets.only(bottom: 75),
         child: Column(
           children: [
             Expanded(
@@ -47,6 +47,7 @@ class PreviewState extends State<Preview> {
                 child: RepaintBoundary(
                   key: previewContainer,
                   child: Container(
+                    padding: EdgeInsets.all(4),
                     height: double.infinity,
                     width: double.infinity,
                     color: widget.chart.backgroundColor,
@@ -83,6 +84,7 @@ class PreviewState extends State<Preview> {
                 ),
               ),
             ),
+            Divider(),
             Text(
               'Hint: tap a section to edit it',
               textAlign: TextAlign.center,

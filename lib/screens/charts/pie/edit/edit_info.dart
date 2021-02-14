@@ -134,6 +134,7 @@ class _EditInfoState extends State<EditInfo>
               ));
               widget.requestUpdate(widget.chart);
             },
+            splashRadius: 16,
           ),
         ),
         if (widget.chart.data.sections.isEmpty)
@@ -172,9 +173,7 @@ class _EditInfoState extends State<EditInfo>
         ],
         Container(
           decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.red,
-            ),
+            border: Border.all(color: Colors.red),
             borderRadius: BorderRadius.circular(6),
           ),
           padding: const EdgeInsets.all(8.0),

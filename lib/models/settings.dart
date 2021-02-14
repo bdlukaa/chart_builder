@@ -8,7 +8,7 @@ class Settings {
   static String get currentLanguage => _box.get('currentLanguage');
   static ThemeMode get theme =>
       _parseThemeMode(_box.get('themeMode')) ?? ThemeMode.system;
-  static Future<void> setTheme(ThemeMode mode) async {
+  static Future<void> setTheme(ThemeMode mode) {
     return _box.put('themeMode', mode.toString());
   }
 }

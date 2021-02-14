@@ -11,6 +11,4 @@ abstract class BaseLocalization extends Localization {
           name: name,
           country: country,
         );
-
-  
 }

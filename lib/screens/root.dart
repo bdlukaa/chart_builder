@@ -7,6 +7,8 @@ import 'charts/pie/home.dart';
 // import 'scatter/home.dart';
 import 'new_chart/home.dart';
 
+import 'settings/home.dart';
+
 class Root extends StatefulWidget {
   Root({Key key}) : super(key: key);
 
@@ -25,7 +27,7 @@ class _RootState extends State<Root> with SingleTickerProviderStateMixin {
         leading: IconButton(
           tooltip: 'Settings',
           icon: Icon(Icons.settings),
-          onPressed: () {},
+          onPressed: () => showSettings(context),
         ),
       ),
       body: PageTransitionSwitcher(
@@ -72,10 +74,10 @@ class _RootState extends State<Root> with SingleTickerProviderStateMixin {
             context: context,
             isScrollControlled: true,
             builder: (_) => DraggableScrollableSheet(
-              builder: (_, controller) {
-                return NewChartHome(
-                    controller: controller, initialIndex: _index);
-              },
+              builder: (_, controller) => NewChartHome(
+                controller: controller,
+                initialIndex: _index,
+              ),
               expand: false,
               maxChildSize: 0.9,
               initialChildSize: 0.9,
