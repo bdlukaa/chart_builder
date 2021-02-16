@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../models/chart.dart';
 import '../utils/utils.dart';
+import '../utils/theme.dart';
 
 class ChartHome<T extends ChartNotifier> extends StatefulWidget {
   ChartHome({
@@ -54,7 +55,12 @@ class _ChartHomeState<T extends ChartNotifier> extends State<ChartHome> {
                       chart?.name ?? '',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: chart.backgroundColor.computeLuminance() >= 0.5
+                        color: (chart.backgroundColor ??
+                                        (AppTheme.isDark(context)
+                                            ? Colors.grey.shade800
+                                            : Colors.white))
+                                    .computeLuminance() >=
+                                0.5
                             ? Colors.black
                             : Colors.white,
                         fontWeight: FontWeight.bold,
@@ -65,30 +71,7 @@ class _ChartHomeState<T extends ChartNotifier> extends State<ChartHome> {
                     if (T == BarCharts) Expanded(child: BarChart(chart.data)),
                     if (T == PieCharts)
                       Expanded(
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: double.infinity,
-                          child: PieChart(
-                            (chart as Chart<PieChartData>).data.copyWith(
-                                  centerSpaceRadius: 0,
-                                  borderData: FlBorderData(show: false),
-                                  sections: (chart as Chart<PieChartData>)
-                                      .data
-                                      .sections
-                                      .map((e) {
-                                    var radius = consts.biggest.longestSide * (e.radius / 250);
-                                    // if (radius >
-                                    //     consts.biggest.longestSide * 0.4)
-                                    //   radius = consts.biggest.longestSide * 0.4;
-                                    return e.copyWith(
-                                      // 40% of radius
-                                      radius: radius,
-                                      showTitle: false,
-                                    );
-                                  }).toList(),
-                                ),
-                          ),
-                        ),
+                        child: _PieChartPreview(chart: chart, consts: consts),
                       ),
                   ],
                 ),
@@ -97,6 +80,41 @@ class _ChartHomeState<T extends ChartNotifier> extends State<ChartHome> {
           ),
         );
       }),
+    );
+  }
+}
+
+class _PieChartPreview extends StatelessWidget {
+  const _PieChartPreview({
+    Key key,
+    @required this.chart,
+    @required this.consts,
+  }) : super(key: key);
+
+  final Chart<PieChartData> chart;
+  final BoxConstraints consts;
+
+  @override
+  Widget build(BuildContext context) {
+    final center =
+        consts.biggest.longestSide * (chart.data.centerSpaceRadius / 800);
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: PieChart(
+        chart.data.copyWith(
+          centerSpaceRadius: center,
+          borderData: FlBorderData(show: false),
+          pieTouchData: PieTouchData(enabled: false),
+          sections: chart.data.sections.map((e) {
+            var radius = consts.biggest.longestSide * (e.radius / 250) - center;
+            return e.copyWith(
+              radius: radius,
+              showTitle: false,
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }

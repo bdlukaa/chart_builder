@@ -6,6 +6,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/rendering.dart';
 
 import '../../../../models/chart.dart';
+import '../../../../utils/theme.dart';
+import '../../../../widgets/screenshot.dart';
 import 'edit_section.dart';
 
 class Preview extends StatefulWidget {
@@ -36,15 +38,16 @@ class PreviewState extends State<Preview> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand(
-      child: Padding(
-        padding: EdgeInsets.only(bottom: 75),
-        child: Column(
-          children: [
-            Expanded(
-              child: Card(
-                color: widget.chart.backgroundColor,
-                child: RepaintBoundary(
+    return Column(
+      children: [
+        Expanded(
+          child: Container(
+            color: AppTheme.isDark(context) ? Colors.white : Colors.grey[900],
+            child: Card(
+              color: widget.chart.backgroundColor,
+              margin: EdgeInsets.all(8),
+              child: LayoutBuilder(
+                builder: (context, consts) => RepaintBoundary(
                   key: previewContainer,
                   child: Container(
                     padding: EdgeInsets.all(4),
@@ -61,10 +64,12 @@ class PreviewState extends State<Preview> {
                       child: Hero(
                         tag: widget.chart,
                         child: PieChart(widget.chart.data.copyWith(
+                          centerSpaceRadius: consts.biggest.longestSide *
+                              (widget.chart.data.centerSpaceRadius / 800),
                           borderData: FlBorderData(show: false),
                           pieTouchData: PieTouchData(touchCallback: (r) {
-                            if ((r.touchInput.runtimeType == FlPanStart) &&
-                                (r.touchInput.runtimeType !=
+                            if ((r.touchInput.runtimeType != FlPanStart) &&
+                                (r.touchInput.runtimeType ==
                                     FlLongPressStart) &&
                                 (r.touchedSectionIndex != null)) {
                               print(r.touchedSectionIndex);
@@ -74,7 +79,9 @@ class PreviewState extends State<Preview> {
                                 widget.chart,
                                 widget.requestUpdate,
                                 r.touchedSectionIndex,
-                              );
+                              ).then((_) {
+                                widget.requestUpdate(widget.chart);
+                              });
                             }
                           }),
                         )),
@@ -84,15 +91,31 @@ class PreviewState extends State<Preview> {
                 ),
               ),
             ),
-            Divider(),
-            Text(
-              'Hint: tap a section to edit it',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.caption,
+          ),
+        ),
+        Divider(),
+        Text(
+          'Hint: long press on a section to edit it',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.caption,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              child: Text('Take a screenshot'),
+              onPressed: () async => ScreenshotDialog(
+                bytes: await takeScreenshot(),
+                name: widget.chart.name,
+              ).show(context),
+            ),
+            TextButton(
+              child: Text('Bookmark'),
+              onPressed: () {},
             ),
           ],
         ),
-      ),
+      ],
     );
   }
 }

@@ -29,6 +29,33 @@ class _RootState extends State<Root> with SingleTickerProviderStateMixin {
           icon: Icon(Icons.settings),
           onPressed: () => showSettings(context),
         ),
+        actions: [
+          TextButton(
+            child: Text('New'),
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all(Colors.white),
+              overlayColor: MaterialStateProperty.all(
+                Theme.of(context).splashColor,
+              ),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder()),
+            ),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (_) => DraggableScrollableSheet(
+                  builder: (_, controller) => NewChartHome(
+                    controller: controller,
+                    initialIndex: _index,
+                  ),
+                  expand: false,
+                  maxChildSize: 0.9,
+                  initialChildSize: 0.9,
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: PageTransitionSwitcher(
         transitionBuilder: (child, animation, secondaryAnimation) =>
@@ -41,13 +68,14 @@ class _RootState extends State<Root> with SingleTickerProviderStateMixin {
           LineHome(),
           BarHome(),
           PieHome(),
+          SizedBox(),
           // ScatterHome(),
         ][_index],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _index,
         onTap: (index) => setState(() => _index = index),
-        selectedItemColor: Theme.of(context).accentColor,
+        type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.stacked_line_chart),
@@ -61,31 +89,11 @@ class _RootState extends State<Root> with SingleTickerProviderStateMixin {
             icon: Icon(Icons.pie_chart),
             label: 'Pie',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.scatter_plot),
-          //   label: 'Scatter',
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.scatter_plot),
+            label: 'Scatter',
+          ),
         ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder: (_) => DraggableScrollableSheet(
-              builder: (_, controller) => NewChartHome(
-                controller: controller,
-                initialIndex: _index,
-              ),
-              expand: false,
-              maxChildSize: 0.9,
-              initialChildSize: 0.9,
-            ),
-          );
-        },
-        icon: Icon(Icons.add),
-        label: Text('New'),
       ),
     );
   }

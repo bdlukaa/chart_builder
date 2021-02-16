@@ -5,13 +5,13 @@ import '../../../../models/chart.dart';
 import '../../../../widgets/count_control.dart';
 import '../../../../widgets/tiles.dart';
 
-void showEditSection(
+Future<void> showEditSection(
   BuildContext context,
   Chart<PieChartData> chart,
   OnEditChart<PieChartData> onEdit,
   int sectionIndex,
 ) {
-  showModalBottomSheet(
+  return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     builder: (_) {

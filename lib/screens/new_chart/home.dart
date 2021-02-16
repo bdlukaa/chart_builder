@@ -60,7 +60,6 @@ class _NewChartHomeState extends State<NewChartHome> {
               onChanged: (type) => setState(() => this.type = type),
             ),
             ChooseName(type: type),
-            // ScatterHome(),
           ][_index],
         ),
       ],

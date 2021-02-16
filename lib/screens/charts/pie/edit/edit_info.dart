@@ -59,7 +59,6 @@ class _EditInfoState extends State<EditInfo>
         CountControl(
           title: 'Center Space Radius',
           value: widget.chart.data.centerSpaceRadius,
-          max: double.infinity,
           onChanged: (v) {
             widget.chart.data =
                 widget.chart.data.copyWith(centerSpaceRadius: v);
@@ -151,12 +150,16 @@ class _EditInfoState extends State<EditInfo>
               final section = widget.chart.data.sections[index];
               return SectionTile(
                 section: section,
-                onEdit: () => showEditSection(
-                  context,
-                  widget.chart,
-                  widget.requestUpdate,
-                  index,
-                ),
+                onEdit: () {
+                  showEditSection(
+                    context,
+                    widget.chart,
+                    widget.requestUpdate,
+                    index,
+                  ).then((_) {
+                    widget.requestUpdate(widget.chart);
+                  });
+                },
                 confirmDismiss: (_) async {
                   // There must be at least one section
                   return widget.chart.data.sections.length != 1;

@@ -11,6 +11,9 @@ class AppTheme extends ChangeNotifier {
     });
   }
 
+  static bool isDark(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark;
+
   ThemeData def(ThemeData from) => from.copyWith(
         visualDensity: VisualDensity.adaptivePlatformDensity,
         appBarTheme: AppBarTheme(

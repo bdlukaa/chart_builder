@@ -1,9 +1,9 @@
-import 'package:chart_builder/widgets/screenshot.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../models/chart.dart';
+import '../../../../widgets/leave.dart';
 
 import 'edit_info.dart';
 import 'preview.dart';
@@ -91,35 +91,16 @@ class _PieEditState extends State<PieEdit> with TickerProviderStateMixin {
         if (!buttonDisabled) {
           showDialog(
             context: context,
-            builder: (context) => AlertDialog(
-              title: Text('Are you sure?'),
-              content: Text(
-                'Are you sure you want to leave without saving your progress?',
-              ),
-              actions: [
-                TextButton(
-                  child: Text('Leave', style: TextStyle(color: Colors.red)),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  },
-                ),
-                FlatButton(
-                  child: Text('Save and Leave',
-                      style: TextStyle(color: Colors.white)),
-                  color: Colors.teal,
-                  onPressed: () {
-                    widget.onSaved(context, chart);
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  },
-                ),
-                FlatButton(
-                  child: Text('Cancel', style: TextStyle(color: Colors.white)),
-                  color: Colors.blue,
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
+            builder: (context) => SureWantToLeave(
+              onLeave: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              onSaveAndLeave: () {
+                widget.onSaved(context, chart);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
             ),
           );
           return false;
@@ -130,29 +111,23 @@ class _PieEditState extends State<PieEdit> with TickerProviderStateMixin {
         key: key,
         child: Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.navigate_before),
+              onPressed: () => Navigator.maybePop(context),
+            ),
             title: TabBar(
               controller: tabController,
               tabs: [Tab(text: 'Edit'), Tab(text: 'Preview')],
             ),
             actions: [
-              AnimatedSwitcher(
-                duration: Duration(milliseconds: 200),
-                child: tabController.index == 0
-                    ? IconButton(
-                        key: ValueKey<int>(tabController.index),
-                        icon: Icon(Icons.bookmark),
-                        tooltip: 'Bookmark',
-                        onPressed: () {},
-                      )
-                    : IconButton(
-                        key: ValueKey<int>(tabController.index),
-                        icon: Icon(Icons.camera_alt),
-                        tooltip: 'Take screenshot',
-                        onPressed: () async => ScreenshotDialog(
-                          bytes: await previewKey.currentState.takeScreenshot(),
-                          name: chart.name,
-                        ).show(context),
-                      ),
+              TextButton(
+                child: Text(
+                  'Save',
+                  style: TextStyle(color: buttonDisabled ? null : Colors.white),
+                ),
+                onPressed: buttonDisabled
+                    ? null
+                    : () => widget.onSaved(context, chart),
               ),
             ],
             // title: Text('Editing chart'),
@@ -173,17 +148,6 @@ class _PieEditState extends State<PieEdit> with TickerProviderStateMixin {
               ],
             );
           }),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: buttonDisabled
-              ? null
-              : FloatingActionButton.extended(
-                  onPressed: buttonDisabled
-                      ? null
-                      : () => widget.onSaved(context, chart),
-                  backgroundColor: buttonDisabled ? Colors.grey : null,
-                  label: Text('Save'),
-                ),
         ),
       ),
     );

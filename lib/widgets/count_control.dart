@@ -24,10 +24,12 @@ class CountControl extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.text = '$value';
     return ListTile(
-      leading: IconButton(
-        icon: Icon(Icons.remove),
-        onPressed: value == min ? null : () => onChanged(value - 1),
-        tooltip: 'Decrease',
+      leading: GestureDetector(
+        onLongPress: () => onChanged(min),
+        child: IconButton(
+          icon: Icon(Icons.remove),
+          onPressed: value == min ? null : () => onChanged(value - 1),
+        ),
       ),
       // title: Text('$value', textAlign: TextAlign.center),
       title: SizedBox(
@@ -56,10 +58,12 @@ class CountControl extends StatelessWidget {
         ),
       ),
       subtitle: Text(title ?? 'Value', textAlign: TextAlign.center),
-      trailing: IconButton(
-        icon: Icon(Icons.add),
-        onPressed: value == max ? null : () => onChanged(value + 1),
-        tooltip: 'Increase',
+      trailing: GestureDetector(
+        onLongPress: () => onChanged(max),
+        child: IconButton(
+          icon: Icon(Icons.add),
+          onPressed: value == max ? null : () => onChanged(value + 1),
+        ),
       ),
     );
   }

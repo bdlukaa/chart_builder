@@ -71,31 +71,6 @@ class SettingsHome extends StatelessWidget {
         ),
       ],
     );
-    return AlertDialog(
-      title: Row(
-        children: [
-          Expanded(child: Text('Settings')),
-          IconButton(
-            tooltip: 'Close',
-            icon: Icon(Icons.close),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListTile(
-            leading: Icon(Icons.language_sharp),
-            title: Text('Language'),
-            subtitle: Text('English'),
-            onTap: () {
-              // TODO: localize
-            },
-          ),
-        ],
-      ),
-    );
   }
 
   IconData getIconData(ThemeMode mode) {
