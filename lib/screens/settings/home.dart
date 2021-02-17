@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../utils/theme.dart';
 import '../../langs/lang.dart';
 
+import 'lang.dart';
+
 showSettings(BuildContext context) {
   showModalBottomSheet(
     context: context,
@@ -66,16 +68,14 @@ class SettingsHome extends StatelessWidget {
             else
               index++;
             theme.mode = ThemeMode.values[index];
-            print(theme.mode);
           },
         ),
         ListTile(
           leading: Icon(Icons.language_sharp),
           title: Text(loc.language),
           subtitle: Text(loc.name),
-          onTap: () {
-            // TODO: localize
-          },
+          trailing: LocalizationFlag(),
+          onTap: () => showLanguage(context),
         ),
       ],
     );

@@ -108,7 +108,7 @@ class _ChartHomeState<T extends ChartNotifier> extends State<ChartHome> {
                 }),
               ),
               Text(
-                'Hint: long press on a chart to see the options',
+                loc.longPressChartToOptions,
                 style: Theme.of(context).textTheme.caption,
                 textAlign: TextAlign.center,
               ),

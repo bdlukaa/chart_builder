@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../langs/lang.dart';
+
 class DangerZone extends StatelessWidget {
   const DangerZone({Key key, @required this.children}) : super(key: key);
 
@@ -7,6 +9,7 @@ class DangerZone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BaseLocalization loc = Localization.currentLocalization;
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.red),
@@ -18,7 +21,7 @@ class DangerZone extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DefaultTextStyle(
-            child: Text('Danger zone'),
+            child: Text(loc.dangerZone),
             style: Theme.of(context).textTheme.headline6,
             textAlign: TextAlign.start,
           ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../langs/lang.dart';
+
 import 'danger_zone.dart';
 import 'tiles.dart';
 
@@ -25,6 +27,7 @@ class CardOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BaseLocalization loc = Localization.currentLocalization;
     return Column(
       children: [
         ListTile(

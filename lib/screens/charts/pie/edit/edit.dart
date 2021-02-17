@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../models/chart.dart';
 import '../../../../widgets/leave.dart';
+import '../../../../langs/lang.dart';
 
 import 'edit_info.dart';
 import 'preview.dart';
@@ -59,6 +60,8 @@ class _PieEditState extends State<PieEdit> with TickerProviderStateMixin {
     final pieCharts = context.watch<PieCharts>();
     final buttonDisabled = chart.isSameAs(pieCharts.getChart(chart.id));
 
+    BaseLocalization loc = Localization.currentLocalization;
+
     final editInfo = EditInfo(
       chart: chart,
       requestUpdate: (chart) {
@@ -69,9 +72,9 @@ class _PieEditState extends State<PieEdit> with TickerProviderStateMixin {
         final index = chart.data.sections.indexOf(section);
         setState(() => chart.data.sections.removeAt(index));
         Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text('${section.title} was deleted'),
+          content: Text(loc.deleted(section.title)),
           action: SnackBarAction(
-            label: 'UNDO',
+            label: loc.undo,
             onPressed: () {
               setState(() => chart.data.sections.insert(index, section));
             },
@@ -117,14 +120,16 @@ class _PieEditState extends State<PieEdit> with TickerProviderStateMixin {
             leading: IconButton(
               icon: Icon(Icons.navigate_before),
               onPressed: () => Navigator.maybePop(context),
+              tooltip: loc.back,
+              splashRadius: 20,
             ),
             title: TabBar(
               controller: tabController,
-              tabs: [Tab(text: 'Edit'), Tab(text: 'Preview')],
+              tabs: [Tab(text: loc.edit), Tab(text: loc.preview)],
             ),
             actions: [
               TextButton(
-                child: Text('Save'),
+                child: Text(loc.save),
                 style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(
                     buttonDisabled ? null : Colors.white,

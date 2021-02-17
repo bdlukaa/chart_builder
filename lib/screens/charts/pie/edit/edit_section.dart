@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import '../../../../models/chart.dart';
+import '../../../../langs/lang.dart';
 import '../../../../widgets/tiles.dart';
 
 Future<void> showEditSection(
@@ -62,6 +63,7 @@ class _EditSectionState extends State<EditSection> {
   @override
   Widget build(BuildContext context) {
     section = chart.data.sections[widget.sectionIndex];
+    BaseLocalization loc = Localization.currentLocalization;
     return ListView(
       controller: widget.controller,
       children: [
@@ -74,11 +76,10 @@ class _EditSectionState extends State<EditSection> {
             initialValue: section.title,
             decoration: InputDecoration(
               border: InputBorder.none,
-              labelText: 'Title',
+              labelText: loc.title,
             ),
             validator: (text) {
-              if (text == null || text.isEmpty)
-                return 'The name can NOT be null';
+              if (text == null || text.isEmpty) return loc.canNotBeEmpty;
               return null;
             },
             autovalidateMode: AutovalidateMode.always,
@@ -89,7 +90,7 @@ class _EditSectionState extends State<EditSection> {
         ),
         Divider(),
         SliderListTile(
-          title: Text('Value'),
+          title: Text(loc.value),
           onChanged: (value) {
             // Use `update: false` to increase performance
             setState(() => updateSection(value: value, update: false));
@@ -99,12 +100,12 @@ class _EditSectionState extends State<EditSection> {
           value: section.value,
         ),
         ColorPickerListTile(
-          title: 'Section color',
+          title: loc.sectionColor,
           color: section.color,
           onChange: (color) => updateSection(color: color),
         ),
         SliderListTile(
-          title: Text('Radius'),
+          title: Text(loc.radius),
           onChanged: (value) {
             // Use `update: false` to increase performance
             setState(() => updateSection(radius: value, update: false));
@@ -114,12 +115,12 @@ class _EditSectionState extends State<EditSection> {
         ),
         Divider(),
         CheckboxListTile(
-          title: Text('Show title'),
+          title: Text(loc.showTitle),
           value: section.showTitle,
           onChanged: (value) => updateSection(showTitle: value),
         ),
         SliderListTile(
-          title: Text('Title position'),
+          title: Text(loc.titlePosition),
           onChanged: (value) {
             // Use `update: false` to increase performance
             setState(() => updateSection(

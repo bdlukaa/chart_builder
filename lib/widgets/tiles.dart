@@ -2,6 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+import '../langs/lang.dart';
+
 class DeleteChartTile extends StatelessWidget {
   const DeleteChartTile({Key key, @required this.onDelete}) : super(key: key);
 
@@ -9,14 +11,13 @@ class DeleteChartTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BaseLocalization loc = Localization.currentLocalization;
     return ListTile(
-      title: Text('Delete this chart'),
-      subtitle: Text(
-        'Once you delete this chart, there is no going back. Please be certain.',
-      ),
+      title: Text(loc.deleteThisChart),
+      subtitle: Text(loc.deleteThisChartDesc),
       isThreeLine: true,
       trailing: TextButton(
-        child: Text('Delete'),
+        child: Text(loc.delete),
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith((s) {
             const interactiveStates = <MaterialState>{
@@ -168,9 +169,10 @@ Future<Color> pickColor(
   Color initialColor = Colors.black,
 }) {
   Color color = initialColor;
+  BaseLocalization loc = Localization.currentLocalization;
   return showDialog<Color>(
     context: context,
-    child: WillPopScope(
+    builder: (_) => WillPopScope(
       onWillPop: () async {
         Navigator.of(context).pop(initialColor);
         return false;
@@ -186,12 +188,12 @@ Future<Color> pickColor(
         ),
         actions: <Widget>[
           FlatButton(
-            child: Text('Cancel'),
+            child: Text(loc.cancel),
             onPressed: () => Navigator.of(context).pop(initialColor),
             color: Colors.redAccent,
           ),
           FlatButton(
-            child: const Text('Done', style: TextStyle(color: Colors.green)),
+            child: Text(loc.done, style: TextStyle(color: Colors.green)),
             onPressed: () => Navigator.of(context).pop(color),
           ),
         ],
@@ -267,11 +269,12 @@ class _SectionTileState extends State<SectionTile>
   }
 
   Widget _buildDismissibleBackground(BuildContext context, [bool left = true]) {
+    BaseLocalization loc = Localization.currentLocalization;
     final children = [
       Icon(Icons.delete, color: Colors.white),
       SizedBox(width: 5),
       Text(
-        'Delete',
+        loc.delete,
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,

@@ -18,8 +18,12 @@ void main() async {
   await Hive.initFlutter();
   await Settings.open();
   await ChartDatabase.open();
+  Localization.localizations
+    ..add(EnglishLocalization())
+    ..add(PortugueseLocalization());
   Localization.init();
-  Localization.localizations..add(EnglishLocalization());
+  Localization.currentLocalization = Settings.currentLanguage;
+  Localization.onLocaleChanged.listen((e) => Settings.currentLanguage = e);
   runApp(MyApp());
 }
 

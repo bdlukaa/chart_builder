@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/chart.dart';
+import '../../langs/lang.dart';
 
-class ChooseName extends StatefulWidget {
+class ChooseName<T extends ChartNotifier> extends StatefulWidget {
   ChooseName({
     Key key,
     @required this.type,
@@ -13,36 +14,22 @@ class ChooseName extends StatefulWidget {
   final ChartType type;
 
   @override
-  _ChooseNameState createState() => _ChooseNameState();
+  _ChooseNameState createState() => _ChooseNameState<T>();
 }
 
-class _ChooseNameState extends State<ChooseName> {
+class _ChooseNameState<T extends ChartNotifier> extends State<ChooseName> {
   TextEditingController controller;
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final barCharts = context.read<BarCharts>();
-    final pieCharts = context.read<PieCharts>();
-    final lineCharts = context.read<LineCharts>();
-    if (controller == null)
-      switch (widget.type) {
-        case ChartType.bar:
-          controller = TextEditingController(
-            text: 'Bar Chart ${barCharts.charts.length + 1}',
-          );
-          break;
-        case ChartType.pie:
-          controller = TextEditingController(
-            text: 'Pie Chart ${pieCharts.charts.length + 1}',
-          );
-          break;
-        case ChartType.line:
-          controller = TextEditingController(
-            text: 'Line Chart ${lineCharts.charts.length + 1}',
-          );
-          break;
-      }
+    final charts = context.read<T>();
+    BaseLocalization loc = Localization.currentLocalization;
+
+    controller = TextEditingController(
+      text: loc.chartGeneratedName(widget.type, charts.charts.length + 1),
+    );
+
     return Form(
       key: formKey,
       child: Padding(
@@ -53,11 +40,11 @@ class _ChooseNameState extends State<ChooseName> {
               controller: controller,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Chart name',
+                labelText: loc.chartName,
               ),
               autovalidateMode: AutovalidateMode.always,
               validator: (text) {
-                if (text.isEmpty) return 'This can NOT be empty';
+                if (text.isEmpty) return loc.canNotBeEmpty;
                 return null;
               },
             ),
@@ -65,25 +52,27 @@ class _ChooseNameState extends State<ChooseName> {
             Align(
               alignment: Alignment.centerRight,
               child: FlatButton(
-                child: Text('Create'),
+                child: Text(loc.create),
                 color: Colors.blue,
                 onPressed: () {
                   if (!formKey.currentState.validate()) return;
                   switch (widget.type) {
                     case ChartType.bar:
-                      barCharts.create(Chart(
+                      charts.create(Chart(
                         name: controller.text,
                         data: BarChartData(),
                       ));
                       break;
                     case ChartType.pie:
-                      pieCharts.create(createPieChart());
+                      charts.create(createPieChart());
                       break;
                     case ChartType.line:
-                      lineCharts.create(Chart(
+                      charts.create(Chart(
                         name: controller.text,
                         data: LineChartData(),
                       ));
+                      break;
+                    default:
                       break;
                   }
                   Navigator.pop(context);

@@ -1,5 +1,13 @@
 Date format: DD/MM/YYYY
 
+## 1.0.4 - [17/02/2021]
+
+- Translated the whole app
+- **NEW**:
+  - **HIGHLIGHT** Portuguese translation
+  - You can now change the current language of the app (or use the default one)
+  - Added windows app
+
 ## 1.0.3 - [17/02/2021]
 
 - Removed unused dependencies

@@ -6,6 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/rendering.dart';
 
 import '../../../../models/chart.dart';
+import '../../../../langs/lang.dart';
 import '../../../../utils/theme.dart';
 import '../../../../widgets/screenshot.dart';
 import 'edit_section.dart';
@@ -38,6 +39,7 @@ class PreviewState extends State<Preview> {
 
   @override
   Widget build(BuildContext context) {
+    BaseLocalization loc = Localization.currentLocalization;
     return Column(
       children: [
         Expanded(
@@ -94,7 +96,7 @@ class PreviewState extends State<Preview> {
         ),
         Divider(),
         Text(
-          'Hint: long press on a section to edit it',
+          loc.longPressSectionToEdit,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.caption,
         ),
@@ -102,7 +104,7 @@ class PreviewState extends State<Preview> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              child: Text('Take a screenshot'),
+              child: Text(loc.takeScreenshot),
               onPressed: () async => ScreenshotDialog(
                 bytes: await takeScreenshot(),
                 name: widget.chart.name,
@@ -110,7 +112,7 @@ class PreviewState extends State<Preview> {
             ),
             TextButton.icon(
               icon: Icon(Icons.bookmark),
-              label: Text('Bookmark'),
+              label: Text(loc.bookmark),
               onPressed: () {},
             ),
           ],

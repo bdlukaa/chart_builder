@@ -4,6 +4,7 @@ import 'package:animations/animations.dart';
 import 'choose_type.dart';
 import 'choose_name.dart';
 import '../../models/chart.dart';
+import '../../langs/lang.dart';
 
 class NewChartHome extends StatefulWidget {
   const NewChartHome({
@@ -25,10 +26,10 @@ class _NewChartHomeState extends State<NewChartHome> {
   ChartType type;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
     switch (widget.initialIndex) {
-      case 0: 
+      case 0:
         type = ChartType.line;
         break;
       case 1:
@@ -45,7 +46,7 @@ class _NewChartHomeState extends State<NewChartHome> {
     return ListView(
       controller: widget.controller,
       children: [
-        buildTop(),
+        buildTop(context),
         Divider(),
         PageTransitionSwitcher(
           transitionBuilder: (child, animation, secondaryAnimation) =>
@@ -59,14 +60,20 @@ class _NewChartHomeState extends State<NewChartHome> {
               type: type,
               onChanged: (type) => setState(() => this.type = type),
             ),
-            ChooseName(type: type),
+            if (type == ChartType.pie)
+              ChooseName<PieCharts>(type: type)
+            else if (type == ChartType.bar)
+              ChooseName<BarCharts>(type: type)
+            else if (type == ChartType.line)
+              ChooseName<LineCharts>(type: type),
           ][_index],
         ),
       ],
     );
   }
 
-  Widget buildTop() {
+  Widget buildTop(BuildContext context) {
+    BaseLocalization loc = Localization.currentLocalization;
     return ListTile(
       leading: AnimatedSwitcher(
         duration: Duration(milliseconds: 100),
@@ -84,7 +91,7 @@ class _NewChartHomeState extends State<NewChartHome> {
               ),
       ),
       title: Text(
-        'New chart',
+        loc.newChart,
         textAlign: TextAlign.center,
         style: TextStyle(fontWeight: FontWeight.bold),
       ),

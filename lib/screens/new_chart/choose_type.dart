@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import '../../models/chart.dart';
+import '../../langs/lang.dart';
 import '../../utils/utils.dart';
 
 class ChooseChartType extends StatelessWidget {
@@ -16,6 +17,7 @@ class ChooseChartType extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BaseLocalization loc = Localization.currentLocalization;
     return GridView.count(
       crossAxisCount: computeAmountGridView(
         MediaQuery.of(context).size.width,
@@ -24,9 +26,9 @@ class ChooseChartType extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       children: [
-        _buildCard('Line', Colors.pink, ChartType.line),
-        _buildCard('Bar', Colors.blue, ChartType.bar),
-        _buildCard('Pie', Colors.indigo, ChartType.pie),
+        _buildCard(loc.newLineChart, Colors.pink, ChartType.line),
+        _buildCard(loc.newBarChart, Colors.blue, ChartType.bar),
+        _buildCard(loc.newPieChart, Colors.indigo, ChartType.pie),
       ],
     );
   }

@@ -11,6 +11,8 @@ class AppTheme extends ChangeNotifier {
     });
   }
 
+  notify() => notifyListeners();
+
   static bool isDark(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark;
 

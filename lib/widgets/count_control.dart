@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../langs/lang.dart';
+
 class CountControl extends StatelessWidget {
   CountControl({
     Key key,
@@ -23,6 +25,7 @@ class CountControl extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     controller.text = '$value';
+    BaseLocalization loc = Localization.currentLocalization;
     return ListTile(
       leading: GestureDetector(
         onLongPress: () => onChanged(min),
@@ -57,7 +60,7 @@ class CountControl extends StatelessWidget {
           maxLines: 1,
         ),
       ),
-      subtitle: Text(title ?? 'Value', textAlign: TextAlign.center),
+      subtitle: Text(title ?? loc.value, textAlign: TextAlign.center),
       trailing: GestureDetector(
         onLongPress: () => onChanged(max),
         child: IconButton(

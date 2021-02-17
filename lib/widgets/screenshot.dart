@@ -20,7 +20,7 @@ class ScreenshotDialog extends StatelessWidget {
   void show(BuildContext context) {
     showDialog(
       context: context,
-      child: this,
+      builder: (_) => this,
     );
   }
 

@@ -6,7 +6,7 @@ import 'chart_database.dart';
 
 typedef OnEditChart<T extends BaseChartData> = Function(Chart<T> chart);
 
-enum ChartType { line, bar, pie }
+enum ChartType { line, bar, pie, scatter }
 
 class Chart<T extends BaseChartData> {
   /// Unique id

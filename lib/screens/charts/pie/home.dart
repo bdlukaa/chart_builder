@@ -18,9 +18,9 @@ class PieHome extends StatelessWidget {
       context.read<PieCharts>().delete(chart);
       Navigator.pop(context);
       Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text('${chart.name} was deleted'),
+        content: Text(loc.deleted(chart.name)),
         action: SnackBarAction(
-          label: 'UNDO',
+          label: loc.undo,
           onPressed: () => context.read<PieCharts>().create(chart),
         ),
       ));
@@ -38,7 +38,7 @@ class PieHome extends StatelessWidget {
               context.read<PieCharts>().update(chart);
               showTextToast(
                 context: context,
-                text: '${chart.name ?? 'Chart'} saved',
+                text: loc.saved(chart.name),
               );
             },
             onDelete: () => deleteChart(chart),

@@ -31,6 +31,7 @@ class _RootState extends State<Root> with SingleTickerProviderStateMixin {
           tooltip: loc.settings,
           icon: Icon(Icons.settings),
           onPressed: () => showSettings(context),
+          splashRadius: 26,
         ),
         actions: [
           TextButton(
@@ -82,19 +83,19 @@ class _RootState extends State<Root> with SingleTickerProviderStateMixin {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.stacked_line_chart),
-            label: 'Line',
+            label: loc.newLineChart,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),
-            label: 'Bar',
+            label: loc.newBarChart,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pie_chart),
-            label: 'Pie',
+            label: loc.newPieChart,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.scatter_plot),
-            label: 'Scatter',
+            label: loc.newScatterChart,
           ),
         ],
       ),
