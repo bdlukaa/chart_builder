@@ -3,7 +3,7 @@ description: A flutter app to help you build beautiful charts easily
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.1
+version: 1.0.3
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -21,12 +21,9 @@ dependencies:
   get_localization: ^2.0.0
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
-  image_gallery_saver: ^1.6.7
   infinite_scroll_pagination: ^2.3.0
-  matrix4_transform: ^1.1.7
   path_provider: ^1.6.27
   provider: ^4.3.3
-  scaled_animated_scaffold: ^0.0.6
   share: ^0.6.5+4
   uuid: ^2.2.2
 

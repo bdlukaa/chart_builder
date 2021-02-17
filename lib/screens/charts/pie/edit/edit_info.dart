@@ -2,8 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../models/chart.dart';
-import '../../../../widgets/count_control.dart';
 import '../../../../widgets/tiles.dart';
+import '../../../../widgets/danger_zone.dart';
 import '../../../../utils/theme.dart';
 
 import 'edit_section.dart';
@@ -56,9 +56,20 @@ class _EditInfoState extends State<EditInfo>
             widget.requestUpdate(widget.chart);
           },
         ),
-        CountControl(
-          title: 'Center Space Radius',
+        SliderListTile(
+          subtitle: Row(
+            children: [
+              Text('Center Space Radius'),
+              Spacer(),
+              Text(
+                widget.chart.data.centerSpaceRadius.toStringAsPrecision(3) +
+                    '/100',
+              ),
+            ],
+          ),
           value: widget.chart.data.centerSpaceRadius,
+          max: 100,
+          count: SizedBox(),
           onChanged: (v) {
             widget.chart.data =
                 widget.chart.data.copyWith(centerSpaceRadius: v);
@@ -82,6 +93,24 @@ class _EditInfoState extends State<EditInfo>
           onChanged: (v) {
             widget.chart.data =
                 widget.chart.data.copyWith(startDegreeOffset: v);
+            widget.requestUpdate(widget.chart);
+          },
+        ),
+        SliderListTile(
+          subtitle: Row(
+            children: [
+              Text('Sections Space'),
+              Spacer(),
+              Text(
+                widget.chart.data.sectionsSpace.toStringAsPrecision(3) + '/100',
+              ),
+            ],
+          ),
+          value: widget.chart.data.sectionsSpace,
+          max: 100,
+          count: SizedBox(),
+          onChanged: (v) {
+            widget.chart.data = widget.chart.data.copyWith(sectionsSpace: v);
             widget.requestUpdate(widget.chart);
           },
         ),
@@ -110,8 +139,21 @@ class _EditInfoState extends State<EditInfo>
             onChanged: (value) => updateBorder(show: value),
           ),
         ),
-        CountControl(
+        SliderListTile(
+          subtitle: Row(
+            children: [
+              Text('Value'),
+              Spacer(),
+              Text(
+                widget.chart.data.borderData.border.top.width
+                        .toStringAsPrecision(3) +
+                    '/100',
+              ),
+            ],
+          ),
           value: widget.chart.data.borderData.border.top.width,
+          max: 100,
+          count: SizedBox(),
           onChanged: (v) => updateBorder(width: v),
         ),
         ColorPickerListTile(
@@ -174,52 +216,7 @@ class _EditInfoState extends State<EditInfo>
             style: Theme.of(context).textTheme.caption,
           ),
         ],
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.red),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          padding: const EdgeInsets.all(8.0),
-          margin: const EdgeInsets.only(top: 4.0, left: 10, right: 10),
-          child: Column(
-            children: [
-              _buildTitle(context, Text('Danger Zone')),
-              ListTile(
-                title: Text('Delete this chart'),
-                subtitle: Text(
-                  'Once you delete this chart, there is no going back. Please be certain.',
-                ),
-                isThreeLine: true,
-                trailing: TextButton(
-                  child: Text('Delete'),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith((s) {
-                      const interactiveStates = <MaterialState>{
-                        MaterialState.pressed,
-                        MaterialState.hovered,
-                        MaterialState.focused,
-                      };
-                      if (s.any(interactiveStates.contains))
-                        return Colors.red.shade300;
-                      return Colors.grey.shade200;
-                    }),
-                    foregroundColor: MaterialStateProperty.resolveWith((s) {
-                      const interactiveStates = <MaterialState>{
-                        MaterialState.pressed,
-                        MaterialState.hovered,
-                        MaterialState.focused,
-                      };
-                      if (s.any(interactiveStates.contains))
-                        return Colors.grey.shade200;
-                      return Colors.grey.shade800;
-                    }),
-                  ),
-                  onPressed: widget.onDelete,
-                ),
-              ),
-            ],
-          ),
-        ),
+        DangerZone(children: [DeleteChartTile(onDelete: widget.onDelete)]),
         Divider(),
       ],
     );

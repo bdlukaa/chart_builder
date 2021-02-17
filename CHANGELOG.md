@@ -1,5 +1,14 @@
 Date format: DD/MM/YYYY
 
+## 1.0.3 - [17/02/2021]
+
+- Removed unused dependencies
+- Unfocus when tab changes
+- Show Options Overlay when long press in a preview chart
+- Removed Count control where I could
+- **NEW**: Translations:
+  - **NEW**: English
+
 ## 1.0.2 - [15/02/2021]
 
 - **NEW**:

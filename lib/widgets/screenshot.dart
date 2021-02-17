@@ -43,7 +43,6 @@ class ScreenshotDialog extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.caption,
           ),
-          // TODO: make this work
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -65,11 +64,14 @@ class ScreenshotDialog extends StatelessWidget {
                 color: Colors.yellow,
                 onPressed: () async {
                   final file = await getFile();
-                  if (!file.existsSync())
+                  if (!(await file.exists()))
                     showTextToast(
                       text: 'You must save the file to share it',
                       context: context,
                     );
+                  else {
+                    await Share.shareFiles([file.path]);
+                  }
                 },
               ),
             ],
@@ -80,9 +82,12 @@ class ScreenshotDialog extends StatelessWidget {
   }
 
   Future<File> getFile() async {
-    final directory = await getExternalStorageDirectory();
+    final directory = await getApplicationDocumentsDirectory();
     final name = this.name.trim().replaceAll(' ', '_');
     final path = '${directory.path}/$name.png';
-    return File(path);
+    final file = File(path);
+    if (!(await file.exists()))
+      file.create();
+    return file;
   }
 }

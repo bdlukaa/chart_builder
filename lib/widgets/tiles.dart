@@ -2,6 +2,47 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+class DeleteChartTile extends StatelessWidget {
+  const DeleteChartTile({Key key, @required this.onDelete}) : super(key: key);
+
+  final Function onDelete;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text('Delete this chart'),
+      subtitle: Text(
+        'Once you delete this chart, there is no going back. Please be certain.',
+      ),
+      isThreeLine: true,
+      trailing: TextButton(
+        child: Text('Delete'),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.resolveWith((s) {
+            const interactiveStates = <MaterialState>{
+              MaterialState.pressed,
+              MaterialState.hovered,
+              MaterialState.focused,
+            };
+            if (s.any(interactiveStates.contains)) return Colors.red.shade300;
+            return Colors.grey.shade200;
+          }),
+          foregroundColor: MaterialStateProperty.resolveWith((s) {
+            const interactiveStates = <MaterialState>{
+              MaterialState.pressed,
+              MaterialState.hovered,
+              MaterialState.focused,
+            };
+            if (s.any(interactiveStates.contains)) return Colors.grey.shade200;
+            return Colors.grey.shade800;
+          }),
+        ),
+        onPressed: onDelete,
+      ),
+    );
+  }
+}
+
 class SliderListTile extends StatelessWidget {
   const SliderListTile({
     Key key,
@@ -31,6 +72,8 @@ class SliderListTile extends StatelessWidget {
         style: Theme.of(context).textTheme.caption,
         child: subtitle ?? SizedBox(),
       ),
+      dense: true,
+      visualDensity: VisualDensity.compact,
       subtitle: DefaultTextStyle(
         style: Theme.of(context).textTheme.subtitle1,
         child: Row(
@@ -53,7 +96,6 @@ class SliderListTile extends StatelessWidget {
                 ),
               ),
             ),
-            // if (title == null) SizedBox(width: 16),
             count ?? Text(value.toStringAsPrecision(3)),
           ],
         ),

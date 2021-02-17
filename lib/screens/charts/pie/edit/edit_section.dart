@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import '../../../../models/chart.dart';
-import '../../../../widgets/count_control.dart';
 import '../../../../widgets/tiles.dart';
 
 Future<void> showEditSection(
@@ -51,11 +50,18 @@ class EditSection extends StatefulWidget {
 }
 
 class _EditSectionState extends State<EditSection> {
+  Chart<PieChartData> chart;
   PieChartSectionData section;
 
   @override
+  void initState() {
+    super.initState();
+    chart = widget.chart.createCopy();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    section = widget.chart.data.sections[widget.sectionIndex];
+    section = chart.data.sections[widget.sectionIndex];
     return ListView(
       controller: widget.controller,
       children: [
@@ -82,9 +88,15 @@ class _EditSectionState extends State<EditSection> {
           ),
         ),
         Divider(),
-        CountControl(
+        SliderListTile(
+          title: Text('Value'),
+          onChanged: (value) {
+            // Use `update: false` to increase performance
+            setState(() => updateSection(value: value, update: false));
+          },
+          max: 100,
+          onChangeEnd: (value) => updateSection(value: value),
           value: section.value,
-          onChanged: (v) => incrementValue(v - section.value),
         ),
         ColorPickerListTile(
           title: 'Section color',
@@ -100,10 +112,26 @@ class _EditSectionState extends State<EditSection> {
           onChangeEnd: (value) => updateSection(radius: value),
           value: section.radius,
         ),
+        Divider(),
         CheckboxListTile(
           title: Text('Show title'),
           value: section.showTitle,
           onChanged: (value) => updateSection(showTitle: value),
+        ),
+        SliderListTile(
+          title: Text('Title position'),
+          onChanged: (value) {
+            // Use `update: false` to increase performance
+            setState(() => updateSection(
+                  titlePositionPercentageOffset: value - 1,
+                  update: false,
+                ));
+          },
+          min: 0,
+          max: 2,
+          onChangeEnd: (value) =>
+              updateSection(titlePositionPercentageOffset: value - 1),
+          value: section.titlePositionPercentageOffset + 1,
         ),
       ],
     );
@@ -112,25 +140,28 @@ class _EditSectionState extends State<EditSection> {
   void updateSection({
     double value,
     double radius,
+    double titlePositionPercentageOffset,
     Color color,
     bool showTitle,
     bool update = true,
   }) {
-    final index = widget.chart.data.sections.indexOf(section);
+    final index = chart.data.sections.indexOf(section);
     if (index == null || index.isNegative) return;
-    final sections = widget.chart.data.sections
+    final sections = chart.data.sections
       ..removeAt(index)
       ..insert(
-          index,
-          section.copyWith(
-            value: value,
-            radius: radius,
-            color: color,
-            showTitle: showTitle,
-          ));
-    widget.chart.data = widget.chart.data.copyWith(sections: sections);
+        index,
+        section.copyWith(
+          value: value,
+          radius: radius,
+          color: color,
+          showTitle: showTitle,
+          titlePositionPercentageOffset: titlePositionPercentageOffset,
+        ),
+      );
+    chart.data = chart.data.copyWith(sections: sections);
     if (update) {
-      widget.onEdit(widget.chart);
+      widget.onEdit(chart);
       setState(() {});
     }
   }

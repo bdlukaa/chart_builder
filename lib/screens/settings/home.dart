@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../utils/theme.dart';
+import '../../langs/lang.dart';
 
 showSettings(BuildContext context) {
   showModalBottomSheet(
@@ -25,15 +26,22 @@ class SettingsHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.watch<AppTheme>();
+    BaseLocalization loc = Localization.currentLocalization;
     return ListView(
       controller: controller,
       children: [
-        ListTile(title: Text('Settings', textAlign: TextAlign.center)),
+        ListTile(
+          title: Text(
+            loc.settings,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+        ),
         Divider(),
         ListTile(
           leading: Icon(Icons.invert_colors),
-          title: Text('Theme'),
-          subtitle: Text(nameThemeMode(theme.mode)),
+          title: Text(loc.appTheme),
+          subtitle: Text(loc.themeName(theme.mode)),
           trailing: AnimatedSwitcher(
             duration: Duration(milliseconds: 300),
             child: Icon(
@@ -63,8 +71,8 @@ class SettingsHome extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.language_sharp),
-          title: Text('Language'),
-          subtitle: Text('English'),
+          title: Text(loc.language),
+          subtitle: Text(loc.name),
           onTap: () {
             // TODO: localize
           },

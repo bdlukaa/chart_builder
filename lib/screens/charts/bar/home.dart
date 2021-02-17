@@ -10,6 +10,7 @@ class BarHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChartHome<BarCharts>(
       boxName: 'barCharts',
+      deleteChart: (chart) {},
       editChart: (chart) {
         // BarEdit.edit(context, BarEdit(
         //   chart: chart,

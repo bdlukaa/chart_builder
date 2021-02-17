@@ -46,10 +46,12 @@ class PreviewState extends State<Preview> {
             child: Card(
               color: widget.chart.backgroundColor,
               margin: EdgeInsets.all(8),
-              child: LayoutBuilder(
-                builder: (context, consts) => RepaintBoundary(
+              child: LayoutBuilder(builder: (context, consts) {
+                return RepaintBoundary(
                   key: previewContainer,
-                  child: Container(
+                  child: AnimatedContainer(
+                    alignment: Alignment.center,
+                    duration: Duration(milliseconds: 250),
                     padding: EdgeInsets.all(4),
                     height: double.infinity,
                     width: double.infinity,
@@ -68,12 +70,9 @@ class PreviewState extends State<Preview> {
                               (widget.chart.data.centerSpaceRadius / 800),
                           borderData: FlBorderData(show: false),
                           pieTouchData: PieTouchData(touchCallback: (r) {
-                            if ((r.touchInput.runtimeType != FlPanStart) &&
-                                (r.touchInput.runtimeType ==
-                                    FlLongPressStart) &&
-                                (r.touchedSectionIndex != null)) {
-                              print(r.touchedSectionIndex);
-                              print(r.touchInput);
+                            if (r.touchInput.runtimeType == FlLongPressStart &&
+                                r.touchedSectionIndex != null) {
+                              Feedback.forLongPress(context);
                               showEditSection(
                                 context,
                                 widget.chart,
@@ -88,8 +87,8 @@ class PreviewState extends State<Preview> {
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+              }),
             ),
           ),
         ),
@@ -109,8 +108,9 @@ class PreviewState extends State<Preview> {
                 name: widget.chart.name,
               ).show(context),
             ),
-            TextButton(
-              child: Text('Bookmark'),
+            TextButton.icon(
+              icon: Icon(Icons.bookmark),
+              label: Text('Bookmark'),
               onPressed: () {},
             ),
           ],

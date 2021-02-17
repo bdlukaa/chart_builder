@@ -9,6 +9,8 @@ import 'new_chart/home.dart';
 
 import 'settings/home.dart';
 
+import '../langs/lang.dart';
+
 class Root extends StatefulWidget {
   Root({Key key}) : super(key: key);
 
@@ -21,17 +23,18 @@ class _RootState extends State<Root> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    BaseLocalization loc = Localization.currentLocalization;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chart Builder'),
+        title: Text(loc.appTitle),
         leading: IconButton(
-          tooltip: 'Settings',
+          tooltip: loc.settings,
           icon: Icon(Icons.settings),
           onPressed: () => showSettings(context),
         ),
         actions: [
           TextButton(
-            child: Text('New'),
+            child: Text(loc.newButton),
             style: ButtonStyle(
               foregroundColor: MaterialStateProperty.all(Colors.white),
               overlayColor: MaterialStateProperty.all(

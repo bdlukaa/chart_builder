@@ -77,29 +77,7 @@ class _ChooseNameState extends State<ChooseName> {
                       ));
                       break;
                     case ChartType.pie:
-                      pieCharts.create(
-                        Chart(
-                          name: controller.text,
-                          data: PieChartData(
-                            centerSpaceRadius: 40,
-                            sections: [
-                              ...List.generate(4, (index) {
-                                return PieChartSectionData(
-                                  title: 'Section ${index + 1}',
-                                  color: [
-                                    Colors.blue,
-                                    Colors.green,
-                                    Colors.indigo,
-                                    Colors.red,
-                                  ][index],
-                                  radius: 100,
-                                );
-                              }),
-                            ],
-                            borderData: FlBorderData(show: false),
-                          ),
-                        ),
-                      );
+                      pieCharts.create(createPieChart());
                       break;
                     case ChartType.line:
                       lineCharts.create(Chart(
@@ -113,6 +91,37 @@ class _ChooseNameState extends State<ChooseName> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Chart<PieChartData> createPieChart() {
+    final colors = [
+      Colors.redAccent,
+      Colors.pink,
+      Colors.deepPurple,
+      Colors.indigo,
+      Colors.blue,
+      Colors.teal.shade800,
+      Colors.amber,
+      Colors.brown,
+    ];
+    colors.shuffle();
+    return Chart(
+      name: controller.text,
+      data: PieChartData(
+        centerSpaceRadius: 40,
+        sections: List.generate(4, (index) {
+          return PieChartSectionData(
+            title: 'Section ${index + 1}',
+            color: colors[index],
+            radius: 100,
+          );
+        }),
+        borderData: FlBorderData(
+          show: false,
+          border: Border.all(color: Colors.black),
         ),
       ),
     );

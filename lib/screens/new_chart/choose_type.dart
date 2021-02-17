@@ -53,204 +53,200 @@ class ChooseChartType extends StatelessWidget {
         child: Ink(
           width: double.infinity,
           padding: EdgeInsets.all(12),
-          child: Column(
-            children: [
-              if (type == ChartType.pie)
-                Expanded(
-                  child: SizedBox(
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: PieChart(
-                      PieChartData(
-                        centerSpaceRadius: 0,
-                        sections: List.generate(
-                          4,
-                          (i) {
-                            switch (i) {
-                              case 0:
-                                return PieChartSectionData(
-                                  color: const Color(0xff0293ee),
-                                  value: 25,
-                                  title: '',
-                                  radius: 60,
-                                  titleStyle: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xff044d7c)),
-                                  titlePositionPercentageOffset: 0.55,
-                                );
-                              case 1:
-                                return PieChartSectionData(
-                                  color: Colors.pink,
-                                  value: 25,
-                                  title: '',
-                                  radius: 45,
-                                  titleStyle: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xff90672d)),
-                                  titlePositionPercentageOffset: 0.55,
-                                );
-                              case 2:
-                                return PieChartSectionData(
-                                  color: const Color(0xff845bef),
-                                  value: 25,
-                                  title: '',
-                                  radius: 40,
-                                  titleStyle: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xff4c3788)),
-                                  titlePositionPercentageOffset: 0.6,
-                                );
-                              case 3:
-                                return PieChartSectionData(
-                                  color: const Color(0xff13d38e),
-                                  value: 25,
-                                  title: '',
-                                  radius: 50,
-                                  titleStyle: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xff0c7f55)),
-                                  titlePositionPercentageOffset: 0.55,
-                                );
-                              default:
-                                return null;
-                            }
-                          },
-                        ),
+          child: AbsorbPointer(
+            child: Column(
+              children: [
+                if (type == ChartType.pie)
+                  Expanded(
+                    child: SizedBox(
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: buildPieChart(),
+                    ),
+                  )
+                else if (type == ChartType.line)
+                  Expanded(
+                    child: LineChart(
+                      LineChartData(
+                        gridData: FlGridData(show: false),
                         borderData: FlBorderData(show: false),
+                        titlesData: FlTitlesData(
+                          leftTitles: SideTitles(showTitles: false),
+                          bottomTitles: SideTitles(showTitles: false),
+                        ),
+                        minX: 0,
+                        maxX: 14,
+                        maxY: 4,
+                        minY: 0,
+                        lineBarsData: linesBarData1(),
                       ),
                     ),
-                  ),
-                )
-              else if (type == ChartType.line)
-                Expanded(
-                  child: LineChart(
-                    LineChartData(
-                      gridData: FlGridData(show: false),
-                      borderData: FlBorderData(show: false),
-                      titlesData: FlTitlesData(
-                        leftTitles: SideTitles(showTitles: false),
-                        bottomTitles: SideTitles(showTitles: false),
-                      ),
-                      minX: 0,
-                      maxX: 14,
-                      maxY: 4,
-                      minY: 0,
-                      lineBarsData: linesBarData1(),
-                    ),
-                  ),
-                )
-              else if (type == ChartType.bar)
-                Expanded(
-                  child: BarChart(
-                    BarChartData(
-                      alignment: BarChartAlignment.spaceAround,
-                      maxY: 20,
-                      barTouchData: BarTouchData(
-                        enabled: false,
-                        touchTooltipData: BarTouchTooltipData(
-                          tooltipBgColor: Colors.transparent,
-                          tooltipPadding: const EdgeInsets.all(0),
-                          tooltipBottomMargin: 8,
-                          getTooltipItem: (
-                            BarChartGroupData group,
-                            int groupIndex,
-                            BarChartRodData rod,
-                            int rodIndex,
-                          ) {
-                            return BarTooltipItem(
-                              rod.y.round().toString(),
-                              TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      titlesData: FlTitlesData(show: false),
-                      borderData: FlBorderData(show: false),
-                      barGroups: [
-                        BarChartGroupData(
-                          x: 0,
-                          barRods: [
-                            BarChartRodData(y: 8, colors: [
-                              Colors.lightBlueAccent,
-                              Colors.greenAccent
-                            ])
-                          ],
-                          showingTooltipIndicators: [0],
-                        ),
-                        BarChartGroupData(
-                          x: 1,
-                          barRods: [
-                            BarChartRodData(y: 10, colors: [
-                              Colors.lightBlueAccent,
-                              Colors.greenAccent
-                            ])
-                          ],
-                          showingTooltipIndicators: [0],
-                        ),
-                        BarChartGroupData(
-                          x: 2,
-                          barRods: [
-                            BarChartRodData(y: 14, colors: [
-                              Colors.lightBlueAccent,
-                              Colors.greenAccent
-                            ])
-                          ],
-                          showingTooltipIndicators: [0],
-                        ),
-                        BarChartGroupData(
-                          x: 3,
-                          barRods: [
-                            BarChartRodData(y: 15, colors: [
-                              Colors.lightBlueAccent,
-                              Colors.greenAccent
-                            ])
-                          ],
-                          showingTooltipIndicators: [0],
-                        ),
-                        BarChartGroupData(
-                          x: 3,
-                          barRods: [
-                            BarChartRodData(y: 13, colors: [
-                              Colors.lightBlueAccent,
-                              Colors.greenAccent
-                            ])
-                          ],
-                          showingTooltipIndicators: [0],
-                        ),
-                        BarChartGroupData(
-                          x: 3,
-                          barRods: [
-                            BarChartRodData(y: 10, colors: [
-                              Colors.lightBlueAccent,
-                              Colors.greenAccent
-                            ])
-                          ],
-                          showingTooltipIndicators: [0],
-                        ),
-                      ],
-                    ),
+                  )
+                else if (type == ChartType.bar)
+                  Expanded(child: buildBarChart()),
+                SizedBox(height: 3),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
-              SizedBox(height: 3),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildPieChart() {
+    return PieChart(
+      PieChartData(
+        centerSpaceRadius: 0,
+        sections: List.generate(
+          4,
+          (i) {
+            switch (i) {
+              case 0:
+                return PieChartSectionData(
+                  color: const Color(0xff0293ee),
+                  value: 25,
+                  title: '',
+                  radius: 60,
+                  titleStyle: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xff044d7c)),
+                  titlePositionPercentageOffset: 0.55,
+                );
+              case 1:
+                return PieChartSectionData(
+                  color: Colors.pink,
+                  value: 25,
+                  title: '',
+                  radius: 45,
+                  titleStyle: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xff90672d)),
+                  titlePositionPercentageOffset: 0.55,
+                );
+              case 2:
+                return PieChartSectionData(
+                  color: const Color(0xff845bef),
+                  value: 25,
+                  title: '',
+                  radius: 40,
+                  titleStyle: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xff4c3788)),
+                  titlePositionPercentageOffset: 0.6,
+                );
+              case 3:
+                return PieChartSectionData(
+                  color: const Color(0xff13d38e),
+                  value: 25,
+                  title: '',
+                  radius: 50,
+                  titleStyle: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xff0c7f55)),
+                  titlePositionPercentageOffset: 0.55,
+                );
+              default:
+                return null;
+            }
+          },
+        ),
+        borderData: FlBorderData(show: false),
+      ),
+    );
+  }
+
+  Widget buildBarChart() {
+    return BarChart(
+      BarChartData(
+        alignment: BarChartAlignment.spaceAround,
+        maxY: 20,
+        barTouchData: BarTouchData(
+          enabled: false,
+          touchTooltipData: BarTouchTooltipData(
+            tooltipBgColor: Colors.transparent,
+            tooltipPadding: const EdgeInsets.all(0),
+            tooltipBottomMargin: 8,
+            getTooltipItem: (
+              BarChartGroupData group,
+              int groupIndex,
+              BarChartRodData rod,
+              int rodIndex,
+            ) {
+              return BarTooltipItem(
+                rod.y.round().toString(),
+                TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            },
+          ),
+        ),
+        titlesData: FlTitlesData(show: false),
+        borderData: FlBorderData(show: false),
+        barGroups: [
+          BarChartGroupData(
+            x: 0,
+            barRods: [
+              BarChartRodData(
+                  y: 8, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            ],
+            showingTooltipIndicators: [0],
+          ),
+          BarChartGroupData(
+            x: 1,
+            barRods: [
+              BarChartRodData(
+                  y: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            ],
+            showingTooltipIndicators: [0],
+          ),
+          BarChartGroupData(
+            x: 2,
+            barRods: [
+              BarChartRodData(
+                  y: 14, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            ],
+            showingTooltipIndicators: [0],
+          ),
+          BarChartGroupData(
+            x: 3,
+            barRods: [
+              BarChartRodData(
+                  y: 15, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            ],
+            showingTooltipIndicators: [0],
+          ),
+          BarChartGroupData(
+            x: 3,
+            barRods: [
+              BarChartRodData(
+                  y: 13, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            ],
+            showingTooltipIndicators: [0],
+          ),
+          BarChartGroupData(
+            x: 3,
+            barRods: [
+              BarChartRodData(
+                  y: 10, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            ],
+            showingTooltipIndicators: [0],
+          ),
+        ],
       ),
     );
   }

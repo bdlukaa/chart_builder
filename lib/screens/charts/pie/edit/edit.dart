@@ -47,7 +47,10 @@ class _PieEditState extends State<PieEdit> with TickerProviderStateMixin {
       length: 2,
       vsync: this,
     );
-    tabController.addListener(() => setState(() {}));
+    tabController.addListener(() {
+      FocusScope.of(context).unfocus();
+      setState(() {});
+    });
     super.initState();
   }
 
@@ -121,9 +124,15 @@ class _PieEditState extends State<PieEdit> with TickerProviderStateMixin {
             ),
             actions: [
               TextButton(
-                child: Text(
-                  'Save',
-                  style: TextStyle(color: buttonDisabled ? null : Colors.white),
+                child: Text('Save'),
+                style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(
+                    buttonDisabled ? null : Colors.white,
+                  ),
+                  overlayColor: MaterialStateProperty.all(
+                    Theme.of(context).splashColor,
+                  ),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder()),
                 ),
                 onPressed: buttonDisabled
                     ? null

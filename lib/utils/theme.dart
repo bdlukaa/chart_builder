@@ -44,11 +44,6 @@ class AppTheme extends ChangeNotifier {
       );
 }
 
-String nameThemeMode(ThemeMode mode) {
-  final name = mode.toString().replaceAll('ThemeMode.', '');
-  return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-}
-
 List<Color> get colors => [
       ...Colors.primaries,
       ...Colors.accents,

@@ -13,17 +13,20 @@ class LineHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChartHome<LineCharts>(
       boxName: 'lineCharts',
+      deleteChart: (chart) {},
       editChart: (chart) {
-        LineEdit.edit(context, LineEdit(
-          chart: chart,
-          onSaved: (context, chart) {
-            context.read<LineCharts>().update(chart);
-            showTextToast(
-              context: context,
-              text: '${chart.name ?? 'Chart'} saved',
-            );
-          },
-        ));
+        LineEdit.edit(
+            context,
+            LineEdit(
+              chart: chart,
+              onSaved: (context, chart) {
+                context.read<LineCharts>().update(chart);
+                showTextToast(
+                  context: context,
+                  text: '${chart.name ?? 'Chart'} saved',
+                );
+              },
+            ));
       },
     );
   }

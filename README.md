@@ -33,4 +33,4 @@ Soon.
 
 # Contribution
 
-Feel free to [open an issue] if you find an error or [make pull requests].
+Feel free to [open an issue](https://github.com/bdlukaa/chart_builder/issues/new) if you find an error or [make pull requests](https://github.com/bdlukaa/chart_builder/pulls).

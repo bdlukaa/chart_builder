@@ -38,7 +38,10 @@ class Chart<T extends BaseChartData> {
         chart.name == name &&
         chart.id == id &&
         chart.backgroundColor == backgroundColor;
-    if (T is PieChartData) {
+    if (T == PieChartData) {
+      final pieChart = chart as Chart<PieChartData>;
+      final data = this.data as PieChartData;
+      if (pieChart.data.sections != data.sections) return false;
       return isSame;
     }
     return isSame;
@@ -51,22 +54,16 @@ class Chart<T extends BaseChartData> {
     };
   }
 
-  // static Chart fromJson(Map<String, dynamic> json) {
-  //   return Chart(
-  //     id: json['id'],
-  //     // datas:
-  //   );
-  // }
-
 }
 
 class ChartNotifier<T extends BaseChartData> extends ChangeNotifier {
   List<Chart<T>> charts = [];
-
-  Chart<T> getChart(String id) => charts.firstWhere(
+  Chart<T> getChart(String id) => charts
+      .firstWhere(
         (e) => e.id == id,
         orElse: () => null,
-      );
+      )
+      ?.createCopy();
 
   @mustCallSuper
   void create(Chart<T> chart) {
@@ -130,7 +127,7 @@ class PieCharts extends ChartNotifier<PieChartData> {
     return Chart(
       id: id,
       name: map['name'],
-      backgroundColor: _parseColor(map['backrgoundColor']),
+      backgroundColor: _parseColor(map['backgroundColor']),
       data: PieChartData(
         centerSpaceColor: _parseColor(data['centerSpaceColor']),
         centerSpaceRadius: data['centerSpaceRadius'],
