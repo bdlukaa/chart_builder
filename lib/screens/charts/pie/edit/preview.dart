@@ -42,6 +42,7 @@ class PreviewState extends State<Preview> {
     BaseLocalization loc = Localization.currentLocalization;
     return Column(
       children: [
+        Divider(),
         Expanded(
           child: Container(
             color: AppTheme.isDark(context) ? Colors.white : Colors.grey[900],
@@ -52,7 +53,7 @@ class PreviewState extends State<Preview> {
                 return RepaintBoundary(
                   key: previewContainer,
                   child: AnimatedContainer(
-                    alignment: Alignment.center,
+                    // alignment: Alignment.center,
                     duration: Duration(milliseconds: 250),
                     padding: EdgeInsets.all(4),
                     height: double.infinity,
@@ -71,20 +72,24 @@ class PreviewState extends State<Preview> {
                           centerSpaceRadius: consts.biggest.longestSide *
                               (widget.chart.data.centerSpaceRadius / 800),
                           borderData: FlBorderData(show: false),
-                          pieTouchData: PieTouchData(touchCallback: (r) {
-                            if (r.touchInput.runtimeType == FlLongPressStart &&
-                                r.touchedSectionIndex != null) {
-                              Feedback.forLongPress(context);
-                              showEditSection(
-                                context,
-                                widget.chart,
-                                widget.requestUpdate,
-                                r.touchedSectionIndex,
-                              ).then((_) {
-                                widget.requestUpdate(widget.chart);
-                              });
-                            }
-                          }),
+                          pieTouchData: PieTouchData(
+                            enabled: true,
+                            touchCallback: (r) {
+                              if (r.touchInput.runtimeType ==
+                                      FlLongPressStart &&
+                                  r.touchedSectionIndex != null) {
+                                Feedback.forLongPress(context);
+                                showEditSection(
+                                  context,
+                                  widget.chart,
+                                  widget.requestUpdate,
+                                  r.touchedSectionIndex,
+                                ).then((_) {
+                                  widget.requestUpdate(widget.chart);
+                                });
+                              }
+                            },
+                          ),
                         )),
                       ),
                     ),

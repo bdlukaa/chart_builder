@@ -1,5 +1,15 @@
 Date format: DD/MM/YYYY
 
+## 1.0.5 - [19/02/2021]
+
+- Fixed and added some translations
+- Removed section tiles animation
+- Removed provider. Now checkes the boxes themselves
+- **FIXED**
+  - Save button
+  - No need to call `AppTheme.of(context).notify()` when a language is selected anymore
+  - Section is now renamed properly
+
 ## 1.0.4 - [17/02/2021]
 
 - Translated the whole app

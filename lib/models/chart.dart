@@ -24,8 +24,24 @@ class Chart<T extends BaseChartData> {
   }) : this.id = id ?? Uuid().v1();
 
   /// Create a copy of this object
-  Chart<T> createCopy() {
-    return Chart(
+  Chart createCopy() {
+    if (T == PieChartData) {
+      return Chart<PieChartData>(
+        id: id,
+        name: name,
+        data: (data as PieChartData).copyWith(
+          startDegreeOffset:
+              (data as PieChartData).startDegreeOffset.toDouble(),
+          sectionsSpace: (data as PieChartData).sectionsSpace.toDouble(),
+          centerSpaceColor:
+              (data as PieChartData).centerSpaceColor?.withOpacity(1),
+          centerSpaceRadius:
+              (data as PieChartData).centerSpaceRadius.toDouble(),
+          sections: (data as PieChartData).sections.toList(),
+        ),
+      );
+    }
+    return Chart<T>(
       id: id,
       name: name,
       data: data,
@@ -33,15 +49,15 @@ class Chart<T extends BaseChartData> {
   }
 
   bool isSameAs(Chart<T> chart) {
+    // return false;
     if (chart == null) return false;
     final isSame = chart.data == data &&
         chart.name == name &&
         chart.id == id &&
         chart.backgroundColor == backgroundColor;
     if (T == PieChartData) {
-      final pieChart = chart as Chart<PieChartData>;
-      final data = this.data as PieChartData;
-      if (pieChart.data.sections != data.sections) return false;
+      // final pieChart = chart as Chart<PieChartData>;
+      // final data = this.data as PieChartData;
       return isSame;
     }
     return isSame;
@@ -53,72 +69,26 @@ class Chart<T extends BaseChartData> {
       'name': name,
     };
   }
-
 }
 
-class ChartNotifier<T extends BaseChartData> extends ChangeNotifier {
-  List<Chart<T>> charts = [];
-  Chart<T> getChart(String id) => charts
-      .firstWhere(
-        (e) => e.id == id,
-        orElse: () => null,
-      )
-      ?.createCopy();
+class LineCharts {}
 
-  @mustCallSuper
-  void create(Chart<T> chart) {
-    charts.add(chart);
-    notifyListeners();
-  }
+class BarCharts {}
 
-  @mustCallSuper
-  void update(Chart<T> data) {
-    final index = charts.indexOf(getChart(data.id));
-    charts.removeAt(index);
-    charts.insert(index, data);
-    notifyListeners();
-  }
-
-  @mustCallSuper
-  void delete(Chart<T> data) {
-    charts.remove(data);
-    notifyListeners();
-  }
-
-  void notify() => notifyListeners();
-}
-
-class LineCharts extends ChartNotifier<LineChartData> {}
-
-class BarCharts extends ChartNotifier<BarChartData> {}
-
-class PieCharts extends ChartNotifier<PieChartData> {
-  PieCharts() {
-    final keys = ChartDatabase.pieChartsBox.keys;
-    keys.forEach((id) async {
-      final map = await ChartDatabase.pieChartsBox.get(id);
-      final chart = _decodePieChart(id, map);
-      charts.add(chart);
-      notifyListeners();
-    });
-  }
-
-  void create(Chart<PieChartData> chart) {
+class PieCharts {
+  static void create(Chart<PieChartData> chart) {
     ChartDatabase.pieChartsBox.put(chart.id, _encodePieChart(chart));
-    super.create(chart);
   }
 
-  void update(Chart<PieChartData> data) {
-    ChartDatabase.pieChartsBox.put(data.id, _encodePieChart(data));
-    super.update(data);
+  static Future update(Chart<PieChartData> data) {
+    return ChartDatabase.pieChartsBox.put(data.id, _encodePieChart(data));
   }
 
-  void delete(Chart<PieChartData> data) {
+  static void delete(Chart<PieChartData> data) {
     ChartDatabase.pieChartsBox.delete(data.id);
-    super.delete(data);
   }
 
-  Chart<PieChartData> _decodePieChart(
+  static Chart<PieChartData> decodePieChart(
     String id,
     Map map,
   ) {
@@ -154,7 +124,7 @@ class PieCharts extends ChartNotifier<PieChartData> {
     );
   }
 
-  Map<String, dynamic> _encodePieChart(Chart<PieChartData> chart) {
+  static Map<String, dynamic> _encodePieChart(Chart<PieChartData> chart) {
     final data = chart.data;
     return {
       'name': chart.name,

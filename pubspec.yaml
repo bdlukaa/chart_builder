@@ -3,7 +3,7 @@ description: A flutter app to help you build beautiful charts easily
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.4
+version: 1.0.5
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -23,6 +23,7 @@ dependencies:
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
   infinite_scroll_pagination: ^2.3.0
+  local_hero: ^0.1.0
   path_provider: ^1.6.27
   provider: ^4.3.3
   share: ^0.6.5+4

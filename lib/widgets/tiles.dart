@@ -202,7 +202,7 @@ Future<Color> pickColor(
   );
 }
 
-class SectionTile extends StatefulWidget {
+class SectionTile extends StatelessWidget {
   SectionTile({
     Key key,
     @required this.section,
@@ -217,53 +217,29 @@ class SectionTile extends StatefulWidget {
   final Future<bool> Function(DismissDirection) confirmDismiss;
 
   @override
-  _SectionTileState createState() => _SectionTileState();
-}
-
-class _SectionTileState extends State<SectionTile>
-    with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Duration get duration => Duration(milliseconds: 200);
-
-  @override
-  void initState() {
-    super.initState();
-    controller = AnimationController(
-      vsync: this,
-      duration: duration,
-    );
-    controller.forward();
-  }
-
-  PieChartSectionData get section => widget.section;
-
-  @override
   Widget build(BuildContext context) {
-    return SizeTransition(
-      sizeFactor: controller,
-      child: Dismissible(
-        background: _buildDismissibleBackground(context),
-        secondaryBackground: _buildDismissibleBackground(context, false),
-        key: ValueKey<PieChartSectionData>(section),
-        direction: DismissDirection.horizontal,
-        confirmDismiss: widget.confirmDismiss,
-        onDismissed: (_) => widget.onDismiss(context, section),
-        child: ListTile(
-          leading: Container(
-            height: 40,
-            width: 40,
-            color: section.color,
-          ),
-          title: Text(section.title),
-          subtitle: Text('${section.value}'),
-          onTap: widget.onEdit,
-          trailing: Icon(Icons.edit),
-          // trailing: IconButton(
-          //   icon: Icon(Icons.edit),
-          //   onPressed: widget.onEdit,
-          //   tooltip: 'Edit section',
-          // ),
+    return Dismissible(
+      background: _buildDismissibleBackground(context),
+      secondaryBackground: _buildDismissibleBackground(context, false),
+      key: ValueKey<PieChartSectionData>(section),
+      direction: DismissDirection.horizontal,
+      confirmDismiss: confirmDismiss,
+      onDismissed: (_) => onDismiss(context, section),
+      child: ListTile(
+        leading: Container(
+          height: 40,
+          width: 40,
+          color: section.color,
         ),
+        title: Text(section.title),
+        subtitle: Text('${section.value}'),
+        onTap: onEdit,
+        trailing: Icon(Icons.edit),
+        // trailing: IconButton(
+        //   icon: Icon(Icons.edit),
+        //   onPressed: widget.onEdit,
+        //   tooltip: 'Edit section',
+        // ),
       ),
     );
   }

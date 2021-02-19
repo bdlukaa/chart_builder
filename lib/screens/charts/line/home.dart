@@ -1,6 +1,6 @@
+import 'package:chart_builder/models/chart_database.dart';
 import 'package:chart_builder/utils/toast/toast.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../models/chart.dart';
 import '../../chart_homes.dart';
@@ -11,8 +11,9 @@ class LineHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChartHome<LineCharts>(
-      boxName: 'lineCharts',
+    return ChartHome(
+      type: ChartType.line,
+      box: ChartDatabase.lineChartsBox,
       deleteChart: (chart) {},
       editChart: (chart) {
         LineEdit.edit(
@@ -20,7 +21,7 @@ class LineHome extends StatelessWidget {
             LineEdit(
               chart: chart,
               onSaved: (context, chart) {
-                context.read<LineCharts>().update(chart);
+                // context.read<LineCharts>().update(chart);
                 showTextToast(
                   context: context,
                   text: '${chart.name ?? 'Chart'} saved',

@@ -32,14 +32,14 @@ class CardOptions extends StatelessWidget {
       children: [
         ListTile(
           title: Text(
-            'Options',
+            loc.options,
             textAlign: TextAlign.center,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         Divider(),
         ListTile(
-          title: Text('Edit', style: TextStyle(color: Colors.blue)),
+          title: Text(loc.editButton, style: TextStyle(color: Colors.blue)),
           trailing: Icon(Icons.edit, color: Colors.blue),
           onTap: onEdit,
         ),

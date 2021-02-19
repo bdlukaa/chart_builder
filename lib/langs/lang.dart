@@ -71,6 +71,7 @@ abstract class BaseLocalization extends Localization {
   String get backgroundColor;
   String get border;
   String get borderColor;
+  String get borderWidth;
 
   String get value;
 
@@ -79,6 +80,8 @@ abstract class BaseLocalization extends Localization {
 
   String saved(String name);
   String deleted(String name);
+
+  String get options;
 
   // Danger zone
   String get dangerZone;

@@ -1,3 +1,4 @@
+import 'package:chart_builder/models/chart_database.dart';
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 
@@ -61,11 +62,11 @@ class _NewChartHomeState extends State<NewChartHome> {
               onChanged: (type) => setState(() => this.type = type),
             ),
             if (type == ChartType.pie)
-              ChooseName<PieCharts>(type: type)
+              ChooseName(type: type, box: ChartDatabase.pieChartsBox)
             else if (type == ChartType.bar)
-              ChooseName<BarCharts>(type: type)
+              ChooseName(type: type, box: ChartDatabase.barChartsBox)
             else if (type == ChartType.line)
-              ChooseName<LineCharts>(type: type),
+              ChooseName(type: type, box: ChartDatabase.lineChartsBox),
           ][_index],
         ),
       ],

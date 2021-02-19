@@ -6,7 +6,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'screens/root.dart';
 
-import 'models/chart.dart';
 import 'models/chart_database.dart';
 import 'models/settings.dart';
 
@@ -33,30 +32,29 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<AppTheme>(create: (_) => AppTheme()),
-        // Chart providers
-        ChangeNotifierProvider<LineCharts>(create: (_) => LineCharts()),
-        ChangeNotifierProvider<BarCharts>(create: (_) => BarCharts()),
-        ChangeNotifierProvider<PieCharts>(create: (_) => PieCharts()),
       ],
-      builder: (context, child) {
-        final theme = context.watch<AppTheme>();
-        BaseLocalization localization = Localization.currentLocalization;
-        return MaterialApp(
-          supportedLocales: Localization.localizations.toLocaleList(),
-          title: localization.appTitle,
-          themeMode: theme.mode,
-          theme: theme.lightTheme,
-          darkTheme: theme.darkTheme,
-          debugShowCheckedModeBanner: false,
-          home: Root(),
-          builder: (context, child) {
-            return ScrollConfiguration(
-              behavior: NoGlowBehavior(),
-              child: child,
-            );
-          },
-        );
-      },
+      builder: (context, child) => StreamBuilder(
+        stream: Localization.onLocaleChanged,
+        builder: (context, _) {
+          final theme = context.watch<AppTheme>();
+          BaseLocalization localization = Localization.currentLocalization;
+          return MaterialApp(
+            supportedLocales: Localization.localizations.toLocaleList(),
+            title: localization.appTitle,
+            themeMode: theme.mode,
+            theme: theme.lightTheme,
+            darkTheme: theme.darkTheme,
+            debugShowCheckedModeBanner: false,
+            home: Root(),
+            builder: (context, child) {
+              return ScrollConfiguration(
+                behavior: NoGlowBehavior(),
+                child: child,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

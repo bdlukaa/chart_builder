@@ -1,3 +1,4 @@
+import 'package:chart_builder/models/chart_database.dart';
 import 'package:flutter/material.dart';
 
 import '../../chart_homes.dart';
@@ -8,8 +9,9 @@ class BarHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChartHome<BarCharts>(
-      boxName: 'barCharts',
+    return ChartHome(
+      type: ChartType.bar,
+      box: ChartDatabase.barChartsBox,
       deleteChart: (chart) {},
       editChart: (chart) {
         // BarEdit.edit(context, BarEdit(

@@ -80,6 +80,7 @@ class EnglishLocalization extends BaseLocalization {
   String get backgroundColor => 'Background color';
   String get border => 'Border';
   String get borderColor => 'Border color';
+  String get borderWidth => 'Border width';
 
   String get value => 'Value';
 
@@ -88,6 +89,8 @@ class EnglishLocalization extends BaseLocalization {
 
   String saved(String name) => '${name ?? Chart} saved';
   String deleted(String name) => '${name ?? 'Chart'} was deleted';
+
+  String get options => 'Options';
 
   // Danger zone
   String get dangerZone => 'Danger zone';

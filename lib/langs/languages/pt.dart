@@ -37,7 +37,8 @@ class PortugueseLocalization extends BaseLocalization {
   String get noLineChartsCreated => 'Você não criou nenhum gráfico de linha.';
   String get noBarChartsCreated => 'Você não criou nenhum gráfico de barra.';
   String get noPieChartsCreated => 'Você não criou nenhum gráfico de pizza.';
-  String get noScatterChartsCreated => 'Você não criou nenhum gráfico de dispersão.';
+  String get noScatterChartsCreated =>
+      'Você não criou nenhum gráfico de dispersão.';
 
   String get save => 'Salvar';
   String get back => 'Voltar';
@@ -88,6 +89,7 @@ class PortugueseLocalization extends BaseLocalization {
   String get backgroundColor => 'Cor de fundo';
   String get border => 'Borda';
   String get borderColor => 'Cor da borda';
+  String get borderWidth => 'Tamanho da borda';
 
   String get value => 'Valor';
 
@@ -96,6 +98,8 @@ class PortugueseLocalization extends BaseLocalization {
 
   String saved(String name) => '${name ?? Chart} foi salvo';
   String deleted(String name) => '${name ?? 'Chart'} foi deletado';
+
+  String get options => 'Opções';
 
   // Danger zone
   String get dangerZone => 'Zona de perigo';
@@ -108,7 +112,7 @@ class PortugueseLocalization extends BaseLocalization {
   String get centerSpaceRadius => 'Tamanho do centro';
   String get centerSpaceColor => 'Cor do centro';
   String get rotationDegree => 'Grau de rotação';
-  String get sectionsSpace => 'Espaçamento das seções';
+  String get sectionsSpace => 'Espaçamento entre as seções';
 
   String get sections => 'Seções';
 

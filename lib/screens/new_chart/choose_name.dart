@@ -1,33 +1,34 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:hive/hive.dart';
 
 import '../../models/chart.dart';
 import '../../langs/lang.dart';
 
-class ChooseName<T extends ChartNotifier> extends StatefulWidget {
-  ChooseName({
+class ChooseName extends StatefulWidget {
+  const ChooseName({
     Key key,
     @required this.type,
+    @required this.box,
   }) : super(key: key);
 
   final ChartType type;
+  final Box box;
 
   @override
-  _ChooseNameState createState() => _ChooseNameState<T>();
+  _ChooseNameState createState() => _ChooseNameState();
 }
 
-class _ChooseNameState<T extends ChartNotifier> extends State<ChooseName> {
+class _ChooseNameState extends State<ChooseName> {
   TextEditingController controller;
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final charts = context.read<T>();
     BaseLocalization loc = Localization.currentLocalization;
 
     controller = TextEditingController(
-      text: loc.chartGeneratedName(widget.type, charts.charts.length + 1),
+      text: loc.chartGeneratedName(widget.type, widget.box.length + 1),
     );
 
     return Form(
@@ -58,19 +59,19 @@ class _ChooseNameState<T extends ChartNotifier> extends State<ChooseName> {
                   if (!formKey.currentState.validate()) return;
                   switch (widget.type) {
                     case ChartType.bar:
-                      charts.create(Chart(
-                        name: controller.text,
-                        data: BarChartData(),
-                      ));
+                      // widget.box.create(Chart(
+                      //   name: controller.text,
+                      //   data: BarChartData(),
+                      // ));
                       break;
                     case ChartType.pie:
-                      charts.create(createPieChart());
+                      PieCharts.create(createPieChart());
                       break;
                     case ChartType.line:
-                      charts.create(Chart(
-                        name: controller.text,
-                        data: LineChartData(),
-                      ));
+                      // charts.create(Chart(
+                      //   name: controller.text,
+                      //   data: LineChartData(),
+                      // ));
                       break;
                     default:
                       break;

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flag/flag.dart';
 
 import '../../langs/lang.dart';
-import '../../utils/theme.dart';
 
 showLanguage(BuildContext context) {
   showModalBottomSheet(
@@ -48,7 +46,6 @@ class PickLanguage extends StatelessWidget {
             onTap: () {
               if (Localization.currentLocalization == localization) return;
               Localization.currentLocalization = localization;
-              context.read<AppTheme>().notify();
             },
             trailing: LocalizationFlag(loc: localization),
           );

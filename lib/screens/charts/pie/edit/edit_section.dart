@@ -85,6 +85,7 @@ class _EditSectionState extends State<EditSection> {
             autovalidateMode: AutovalidateMode.always,
             onFieldSubmitted: (text) {
               if (text == null || text.isEmpty) return;
+              updateSection(title: text);
             },
           ),
         ),
@@ -95,8 +96,8 @@ class _EditSectionState extends State<EditSection> {
             // Use `update: false` to increase performance
             setState(() => updateSection(value: value, update: false));
           },
-          max: 100,
           onChangeEnd: (value) => updateSection(value: value),
+          max: 100,
           value: section.value,
         ),
         ColorPickerListTile(
@@ -128,10 +129,11 @@ class _EditSectionState extends State<EditSection> {
                   update: false,
                 ));
           },
+          onChangeEnd: (value) => updateSection(
+            titlePositionPercentageOffset: value - 1,
+          ),
           min: 0,
           max: 2,
-          onChangeEnd: (value) =>
-              updateSection(titlePositionPercentageOffset: value - 1),
           value: section.titlePositionPercentageOffset + 1,
         ),
       ],
@@ -139,6 +141,7 @@ class _EditSectionState extends State<EditSection> {
   }
 
   void updateSection({
+    String title,
     double value,
     double radius,
     double titlePositionPercentageOffset,
@@ -153,6 +156,7 @@ class _EditSectionState extends State<EditSection> {
       ..insert(
         index,
         section.copyWith(
+          title: title,
           value: value,
           radius: radius,
           color: color,

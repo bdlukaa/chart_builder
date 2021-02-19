@@ -34,6 +34,8 @@ class EditInfo extends StatefulWidget {
 
 class _EditInfoState extends State<EditInfo>
     with AutomaticKeepAliveClientMixin {
+  Chart<PieChartData> get chart => widget.chart;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -45,7 +47,7 @@ class _EditInfoState extends State<EditInfo>
           controller: widget.nameController,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10),
-            labelText: loc.name,
+            labelText: loc.chartName,
           ),
           autovalidateMode: AutovalidateMode.always,
           validator: (text) {
@@ -54,8 +56,7 @@ class _EditInfoState extends State<EditInfo>
           },
           onFieldSubmitted: (text) {
             if (text == null || text.isEmpty) return;
-            widget.chart.name = text;
-            widget.requestUpdate(widget.chart);
+            widget.requestUpdate(chart..name = text);
           },
         ),
         SliderListTile(
@@ -64,18 +65,17 @@ class _EditInfoState extends State<EditInfo>
               Text(loc.rotationDegree),
               Spacer(),
               Text(
-                widget.chart.data.startDegreeOffset.toStringAsPrecision(3) +
-                    '/360',
+                chart.data.startDegreeOffset.toStringAsPrecision(3) + '/360',
               ),
             ],
           ),
-          value: widget.chart.data.startDegreeOffset,
+          value: chart.data.startDegreeOffset,
           max: 360,
+          title: SizedBox(),
           count: SizedBox(),
           onChanged: (v) {
-            widget.chart.data =
-                widget.chart.data.copyWith(startDegreeOffset: v);
-            widget.requestUpdate(widget.chart);
+            chart.data = chart.data.copyWith(startDegreeOffset: v);
+            widget.requestUpdate(chart);
           },
         ),
         SliderListTile(
@@ -84,24 +84,25 @@ class _EditInfoState extends State<EditInfo>
               Text(loc.sectionsSpace),
               Spacer(),
               Text(
-                widget.chart.data.sectionsSpace.toStringAsPrecision(3) + '/100',
+                chart.data.sectionsSpace.toStringAsPrecision(3) + '/100',
               ),
             ],
           ),
-          value: widget.chart.data.sectionsSpace,
+          value: chart.data.sectionsSpace,
           max: 100,
+          title: SizedBox(),
           count: SizedBox(),
           onChanged: (v) {
-            widget.chart.data = widget.chart.data.copyWith(sectionsSpace: v);
-            widget.requestUpdate(widget.chart);
+            chart.data = chart.data.copyWith(sectionsSpace: v);
+            widget.requestUpdate(chart);
           },
         ),
         ColorPickerListTile(
           title: loc.backgroundColor,
-          color: widget.chart.backgroundColor,
+          color: chart.backgroundColor,
           onChange: (color) {
-            widget.chart.backgroundColor = color;
-            widget.requestUpdate(widget.chart);
+            chart.backgroundColor = color;
+            widget.requestUpdate(chart);
           },
         ),
         _buildTitle(context, Text(loc.center)),
@@ -111,57 +112,56 @@ class _EditInfoState extends State<EditInfo>
               Text(loc.centerSpaceRadius),
               Spacer(),
               Text(
-                widget.chart.data.centerSpaceRadius.toStringAsPrecision(3) +
-                    '/100',
+                chart.data.centerSpaceRadius.toStringAsPrecision(3) + '/100',
               ),
             ],
           ),
-          value: widget.chart.data.centerSpaceRadius,
+          value: chart.data.centerSpaceRadius,
           max: 100,
+          title: SizedBox(),
           count: SizedBox(),
           onChanged: (v) {
-            widget.chart.data =
-                widget.chart.data.copyWith(centerSpaceRadius: v);
-            widget.requestUpdate(widget.chart);
+            chart.data = chart.data.copyWith(centerSpaceRadius: v);
+            widget.requestUpdate(chart);
           },
         ),
         ColorPickerListTile(
           title: loc.centerSpaceColor,
-          color: widget.chart.data.centerSpaceColor,
+          color: chart.data.centerSpaceColor,
           onChange: (color) {
-            widget.chart.data =
-                widget.chart.data.copyWith(centerSpaceColor: color);
-            widget.requestUpdate(widget.chart);
+            chart.data = chart.data.copyWith(centerSpaceColor: color);
+            widget.requestUpdate(chart);
           },
         ),
         _buildTitle(
           context,
           Text(loc.border),
           trailing: Checkbox(
-            value: widget.chart.data.borderData.show,
+            value: chart.data.borderData.show,
             onChanged: (value) => updateBorder(show: value),
           ),
         ),
         SliderListTile(
           subtitle: Row(
             children: [
-              Text(loc.value),
+              Text(loc.borderWidth),
               Spacer(),
               Text(
-                widget.chart.data.borderData.border.top.width
-                        .toStringAsPrecision(3) +
+                chart.data.borderData.border.top.width.toStringAsPrecision(3) +
                     '/100',
               ),
             ],
           ),
-          value: widget.chart.data.borderData.border.top.width,
+          value: chart.data.borderData.border.top.width,
           max: 100,
+          title: SizedBox(),
           count: SizedBox(),
-          onChanged: (v) => updateBorder(width: v),
+          onChanged: (v) => updateBorder(width: v, update: false),
+          onChangeEnd: (v) => updateBorder(width: v, update: true),
         ),
         ColorPickerListTile(
           title: loc.borderColor,
-          color: widget.chart.data.borderData.border.top.color,
+          color: chart.data.borderData.border.top.color,
           onChange: (color) => updateBorder(color: color),
         ),
         _buildTitle(
@@ -171,36 +171,36 @@ class _EditInfoState extends State<EditInfo>
             tooltip: loc.add,
             icon: Icon(Icons.add),
             onPressed: () {
-              widget.chart.data.sections.add(PieChartSectionData(
-                title: 'Section ${widget.chart.data.sections.length + 1}',
+              chart.data.sections.add(PieChartSectionData(
+                title: 'Section ${chart.data.sections.length + 1}',
                 radius: 100,
                 color: colors.random(),
               ));
-              widget.requestUpdate(widget.chart);
+              widget.requestUpdate(chart);
             },
             splashRadius: 16,
           ),
         ),
-        if (widget.chart.data.sections.isNotEmpty) ...[
+        if (chart.data.sections.isNotEmpty) ...[
           ...List.generate(
-            widget.chart.data.sections.length,
+            chart.data.sections.length,
             (index) {
-              final section = widget.chart.data.sections[index];
+              final section = chart.data.sections[index];
               return SectionTile(
                 section: section,
                 onEdit: () {
                   showEditSection(
                     context,
-                    widget.chart,
+                    chart,
                     widget.requestUpdate,
                     index,
                   ).then((_) {
-                    widget.requestUpdate(widget.chart);
+                    widget.requestUpdate(chart);
                   });
                 },
                 confirmDismiss: (_) async {
                   // There must be at least one section
-                  return widget.chart.data.sections.length != 1;
+                  return chart.data.sections.length != 1;
                 },
                 onDismiss: widget.onDismiss,
               );
@@ -222,9 +222,10 @@ class _EditInfoState extends State<EditInfo>
     bool show,
     double width,
     Color color,
+    bool update = true,
   }) {
-    final border = widget.chart.data.borderData;
-    widget.chart.data = widget.chart.data.copyWith(
+    final border = chart.data.borderData;
+    chart.data = chart.data.copyWith(
       borderData: FlBorderData(
         show: show ?? border.show,
         border: Border.all(
@@ -233,7 +234,7 @@ class _EditInfoState extends State<EditInfo>
         ),
       ),
     );
-    widget.requestUpdate(widget.chart);
+    if (update) widget.requestUpdate(chart);
   }
 
   Widget _buildTitle(
